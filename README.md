@@ -3,4 +3,4 @@
 
 | Description | Source file |
 |:-------------------:|:----------------------------------:|
-| Checks if both input strings are Meta Strings | [/src/main/scala/MetaStrings.scala](https://github.com/oginskis/codingProblems/blob/master/src/main/scala/MetaStrings.scala) |
+| [Checks if both input strings are Meta Strings](http://www.geeksforgeeks.org/meta-strings-check-two-strings-can-become-swap-one-string/) | [/src/main/scala/MetaStrings.scala](https://github.com/oginskis/codingProblems/blob/master/src/main/scala/MetaStrings.scala) |
