@@ -1,9 +1,9 @@
 package utils
 
-import scala.io.Source
+import helpers.LabyrinthFiller
 import scala.util.Try
 
-object Labyrinth extends App {
+object Labyrinth extends App with LabyrinthFiller {
 
   //start position:
   // (row,column)
@@ -18,32 +18,7 @@ object Labyrinth extends App {
   //# o # # # # # #
   //# o # # # # # #
   //# # # # # # # #
-  val filename = "/path/to/labyrinth"
-
-  val labyrinthList = Source.fromFile(filename).getLines.toList
-  val labyrinth = Array.ofDim[Boolean](labyrinthList.size,labyrinthList.size)
-
-  //fill file contents into 2 dimensional array
-  def fillLabyrinthArray = {
-    var rowNum = 0
-    var fieldNum = 0
-    labyrinthList.map(row => {
-      val fields = row.trim.split(" ")
-      if (fields.size != labyrinthList.size) {
-        throw new IllegalArgumentException("Number of fields in each row must be equal to number of rows")
-      }
-      fields.foreach(field => {
-        field match {
-          case "#" => labyrinth(rowNum)(fieldNum) = false
-          case "o" => labyrinth(rowNum)(fieldNum) = true
-          case _ => throw new IllegalArgumentException(s"Unsupported marker. Must be '#' or 'o'")
-        }
-        fieldNum = fieldNum + 1
-      })
-      rowNum = rowNum + 1
-      fieldNum = 0
-    })
-  }
+  val filename = "/path/to/file"
 
   def doesExitExist(startPosition:(Int,Int)): Boolean = {
 
@@ -52,7 +27,7 @@ object Labyrinth extends App {
 
       //checks whether the current position is empty (filled)
       def isEmpty(currentPosition: (Int, Int)): Boolean = {
-        Try(labyrinth(currentPosition._1)(currentPosition._2))
+        Try(labyrinth(filename)(currentPosition._1)(currentPosition._2))
           .getOrElse(false)
       }
       //checks whether the current position is on the edge of the labyrinth
@@ -60,8 +35,8 @@ object Labyrinth extends App {
         currentPosition match {
           case `start` => false
           case _ => {
-            currentPosition._1 == 0 || currentPosition._1 == labyrinth.length - 1 ||
-              currentPosition._2 == 0 || currentPosition._2 == labyrinth.length - 1
+            currentPosition._1 == 0 || currentPosition._1 == labyrinth(filename).length - 1 ||
+              currentPosition._2 == 0 || currentPosition._2 == labyrinth(filename).length - 1
           }
         }
       }
@@ -78,7 +53,7 @@ object Labyrinth extends App {
         //are exits
         case _ => {
           print(s"$position -> ")
-          labyrinth(position._1)(position._2) = false
+          labyrinth(filename)(position._1)(position._2) = false
           isExit(position._1 - 1, position._2) ||
             isExit(position._1 + 1, position._2) ||
             isExit(position._1, position._2 - 1) ||
@@ -88,8 +63,5 @@ object Labyrinth extends App {
     }
     isExit(start)
   }
-
-  fillLabyrinthArray
   doesExitExist(start)
-
 }

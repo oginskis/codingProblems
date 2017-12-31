@@ -9,7 +9,7 @@ object LabyrinthBFS extends App with LabyrinthFiller {
 
   val startNodeLocation = (0,2)
   val endNodeLocation = (7,1)
-  val filename = "/Users/viktors.oginskis/OwnStuff/codingProblems/src/main/scala/labyrinth"
+  val filename = "/path/to/file"
 
   def traverseLabyrinth(startNode: Node):List[Node] = {
     def traverseLabyrinth(visitedNodes:List[Node],nodesToVisit:Queue[Node]):List[Node] =  {
