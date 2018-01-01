@@ -9,12 +9,12 @@ object LabyrinthBFS extends App with LabyrinthFiller {
 
   val startNodeLocation = (0,2)
   val endNodeLocation = (7,1)
-  val filename = "/Users/viktors.oginskis/OwnStuff/codingProblems/src/main/scala/labyrinth"
+  val filename = "/path/to/labyrinth"
 
   def traverseLabyrinth(startNode: Node):List[Node] = {
     def traverseLabyrinth(visitedNodes:List[Node],nodesToVisit:Queue[Node]):List[Node] =  {
       def isEmpty(currentPosition:(Int,Int)): Boolean = {
-        Try(labyrinth(filename)(currentPosition._1)(currentPosition._2))
+        Try(labyrinth(filename)(currentPosition._1)(currentPosition._2) == "o")
           .getOrElse(false)
       }
       def hasNotBeenVisited(currentPosition:(Int,Int)): Boolean = {
@@ -49,7 +49,8 @@ object LabyrinthBFS extends App with LabyrinthFiller {
   def findShortestPathTo(destinationLocation:(Int,Int),nodes:List[Node]):List[Node] = {
     val nodeFound = nodes.filter(node => node.location == destinationLocation)
     nodeFound match {
-      case List() => throw new IllegalArgumentException("Destination location does not exist in labyrinth")
+      case List() => throw new IllegalArgumentException(s"Destination location does not exist in labyrinth "+
+        s"or it's not reachable from $startNodeLocation")
       case head :: tail =>{
         def displayShortestPath(node: Option[Node]):List[Node] =  node match {
           case None => Nil

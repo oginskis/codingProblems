@@ -3,11 +3,11 @@ import scala.io.Source
 
 trait LabyrinthFiller {
 
-  private var labyrinth = None: Option[Array[Array[Boolean]]]
+  private var labyrinth = None: Option[Array[Array[String]]]
 
   private def fillLabyrinthArray(path:String) = {
     val labyrinthList = Source.fromFile(path).getLines.toList
-    labyrinth = Option(Array.ofDim[Boolean](labyrinthList.size,labyrinthList.size))
+    labyrinth = Option(Array.ofDim[String](labyrinthList.size,labyrinthList.size))
     var rowNum = 0
     var fieldNum = 0
     labyrinthList.map(row => {
@@ -18,8 +18,7 @@ trait LabyrinthFiller {
       fields.foreach(field => {
         for (labyrinth <- labyrinth) {
           field match {
-            case "#" => labyrinth(rowNum)(fieldNum) = false
-            case "o" => labyrinth(rowNum)(fieldNum) = true
+            case x if (x == "#" || x== "o" || x== "$") => labyrinth(rowNum)(fieldNum) = x
             case _ => throw new IllegalArgumentException(s"Unsupported marker. Must be '#' or 'o'")
           }
           fieldNum = fieldNum + 1
@@ -30,7 +29,7 @@ trait LabyrinthFiller {
     })
   }
 
-  def labyrinth(path:String): Array[Array[Boolean]] = {
+  def labyrinth(path:String): Array[Array[String]] = {
     labyrinth match {
       case None => {
         fillLabyrinthArray(path)
