@@ -1,9 +1,9 @@
-import helpers.LabyrinthFiller
+import helpers.LabyrinthUtils
 
 import scala.collection.mutable.Queue
 import scala.util.Try
 
-object LabyrinthBFS extends App with LabyrinthFiller {
+object LabyrinthBFS extends App with LabyrinthUtils {
 
   case class Node(location:(Int,Int),parent:Option[Node])
 

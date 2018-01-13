@@ -1,9 +1,9 @@
 package utils
 
-import helpers.LabyrinthFiller
+import helpers.LabyrinthUtils
 import scala.util.Try
 
-object Labyrinth extends App with LabyrinthFiller {
+object Labyrinth extends App with LabyrinthUtils {
 
   //start position:
   // (row,column)

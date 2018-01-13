@@ -1,7 +1,7 @@
 package helpers
 import scala.io.Source
 
-trait LabyrinthFiller {
+trait LabyrinthUtils {
 
   private var labyrinth = None: Option[Array[Array[String]]]
 
@@ -37,6 +37,24 @@ trait LabyrinthFiller {
       }
       case Some(value) => value
     }
+  }
+
+  def vizualize = {
+    labyrinth.get.foreach(a=>{
+      println()
+      a.foreach(b=>{
+        print(s"$b ")
+      })
+    })
+  }
+
+  def vizualize(localMap: Array[Array[String]]) = {
+    localMap.foreach(a=>{
+      println()
+      a.foreach(b=>{
+        print(s"$b ")
+      })
+    })
   }
 
 }

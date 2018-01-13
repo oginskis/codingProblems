@@ -1,9 +1,9 @@
-import helpers.LabyrinthFiller
+import helpers.LabyrinthUtils
 
 import scala.collection.mutable.Queue
 import scala.util.Try
 
-object LabyrinthBFSOOP extends App with LabyrinthFiller {
+object LabyrinthBFSOOP extends App with LabyrinthUtils {
 
   case class Node(position:(Int,Int),parentNode:Option[Node]){
     def moveUp():Node = {
