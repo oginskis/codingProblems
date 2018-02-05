@@ -34,12 +34,30 @@ object NeuralNetwork extends App {
       f(col)
   }
 
+  def generateInitialInputToHiddenLayerWeights(sizeOfHiddenLayer: Int, numberOfAttributesInExample: Int)
+      : Array[Array[Double]] = {
+    import Helpers._
+    val matrix = Array.ofDim[Double](numberOfAttributesInExample,sizeOfHiddenLayer)
+    for (i <- 0 until matrix.length; j <- 0 until matrix(0).length) {
+      matrix(i)(j) = random
+    }
+    matrix
+  }
+
+  def generateInitialHiddenToOutputLayerWeights(sizeOfHiddenLayer: Int): Array[Double] = {
+    import  Helpers._
+    val vector = new Array[Double](sizeOfHiddenLayer)
+    for (i <- 0 until vector.length) {
+      vector(i) = random
+    }
+    vector
+  }
+
   def forwardPropagation(trainingSet: Array[Array[Double]], expectedResultSet: Array[Double], sizeOfHiddenLayer:Int)
   : Array[(Double,Double)] = {
     import Helpers._
-    val initialFirstLayerWeights = Array[Array[Double]](Array(random,random,random),
-      Array(random,random,random))
-    val initialSecondLayerWeights = Array[Double](random,random,random)
+    val initialFirstLayerWeights = generateInitialInputToHiddenLayerWeights(trainingSet(0).length,sizeOfHiddenLayer)
+    val initialSecondLayerWeights = generateInitialHiddenToOutputLayerWeights(sizeOfHiddenLayer)
     val inputToHiddenW = calculateWeights(trainingSet,initialFirstLayerWeights)
     val hiddenActivated = applyActivationFunction(inputToHiddenW,sigmoid(_))
     val hiddenToOutputW = calculateWeights(hiddenActivated,initialSecondLayerWeights)
@@ -54,7 +72,7 @@ object NeuralNetwork extends App {
 
   val expected = Array(1.0,1.0,1.0,0.0,0.0)
 
-  val result = forwardPropagation(input,expected,10)
+  val result = forwardPropagation(input,expected,16)
 
   result.foreach(tuple => println(s"${tuple._1} ${tuple._2}"))
 }
