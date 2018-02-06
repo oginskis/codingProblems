@@ -1,4 +1,5 @@
 import scala.math.exp
+import scala.math.pow
 import scala.util.Random
 
 object NeuralNetwork extends App {
@@ -53,6 +54,10 @@ object NeuralNetwork extends App {
     vector
   }
 
+  def calculateCost(actual: Array[Double], expected: Array[Double]): Double = {
+    expected.zip(actual).map(tuple => pow((tuple._1 - tuple._2),2)*0.5).reduce(_+_)
+  }
+
   def forwardPropagation(trainingSet: Array[Array[Double]], expectedResultSet: Array[Double], sizeOfHiddenLayer:Int)
   : Array[(Double,Double)] = {
     import Helpers._
@@ -62,6 +67,7 @@ object NeuralNetwork extends App {
     val hiddenActivated = applyActivationFunction(inputToHiddenW,sigmoid(_))
     val hiddenToOutputW = calculateWeights(hiddenActivated,initialSecondLayerWeights)
     val outputActivated = applyActivationFunction(hiddenToOutputW,sigmoid(_))
+    System.out.println(calculateCost(outputActivated,expected))
     outputActivated.zip(expectedResultSet)
   }
 
@@ -72,7 +78,7 @@ object NeuralNetwork extends App {
 
   val expected = Array(1.0,1.0,1.0,0.0,0.0)
 
-  val result = forwardPropagation(input,expected,16)
+  val result = forwardPropagation(input,expected,100)
 
   result.foreach(tuple => println(s"${tuple._1} ${tuple._2}"))
 }
